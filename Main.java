@@ -16,7 +16,7 @@ public class Main extends JFrame
 	public Main()
 	{
 		model = new Model();
-		view = new View();
+		view = new View(model);
 		controller = new Controller(model, view);
 		view.show(view);
 		view.addMouseListener(controller);
