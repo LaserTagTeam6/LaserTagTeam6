@@ -1,15 +1,48 @@
 /*
- * File: Main.java
- * Team 6
- * Date: 09/13/22
- */
+Name: Team 6
+Project: Laser Tag
+Date: 09/30/2022
+*/
 
-import java.util.Scanner;
+import javax.swing.JFrame;
+import java.awt.Toolkit;
 
-class Main
+public class Main extends JFrame
 {
-    public static void main(String[] args)
-    {
-        System.out.println("Hello World");
-    }
+	Model model;
+	View view;
+	Controller controller;
+	
+	public Main()
+	{
+		model = new Model();
+		view = new View(model);
+		controller = new Controller(model, view);
+		view.show(view);
+		view.addMouseListener(controller);
+		view.addKeyListener(controller);
+	}
+	
+	public void run()
+	{
+		while(true)
+		{
+			controller.update();
+			model.update();
+			//view.repaint();
+			Toolkit.getDefaultToolkit().sync();
+			try{
+				Thread.sleep(1);
+			} catch(Exception e){
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+	}
+
+	public static void main(String[] args)
+	{
+		Main g = new Main();
+		g.run();
+	}
 }
