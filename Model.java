@@ -1,3 +1,4 @@
+
 /*
 Name: Team 6
 Project: Laser Tag
@@ -25,7 +26,7 @@ class Model
                 countdownStarter--;
 
                 if (countdownStarter < 0) {
-                    System.out.println("Timer Over!");
+                    System.out.println("The Game has Begun!");
                     scheduler.shutdown();
                 }
             }
