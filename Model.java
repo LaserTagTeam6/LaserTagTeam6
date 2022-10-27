@@ -6,8 +6,7 @@ Date: 09/30/2022
 class Model
 {
 
-	Model()
-	{
+	Model(){
 	}
 
 	public void update(){
