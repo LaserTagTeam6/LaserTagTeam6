@@ -19,7 +19,6 @@ class Controller implements ActionListener, MouseListener, KeyListener
 	View view;
 	Model model;
 	
-	
 	Controller(Model m, View v){
 		model = m;
 		view = v;
@@ -121,8 +120,8 @@ class Controller implements ActionListener, MouseListener, KeyListener
 					//Starts the Game
 					case KeyEvent.VK_F5:
 						// Future code here
-						System.out.println("game start");
-						System.exit(0);
+						model.warningTimer();
+						//System.exit(0);
 						break;
 					
 					//Exits the Game
