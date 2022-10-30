@@ -168,49 +168,49 @@ class Controller implements ActionListener, MouseListener, KeyListener
 			{
 				// Adds text to Red0
 				case 0:
-					if(view.RedID0.getText().length() < 10)
+					if(view.RedIDs[0].getText().length() < 10)
 					{
-						view.RedID0.setText(view.RedID0.getText()+view.IDnum);
+						view.RedIDs[0].setText(view.RedIDs[0].getText()+view.IDnum);
 					}
 					break;
 				
 				// Adds text to Red1
 				case 1:
-					if(view.RedID1.getText().length() < 10)
+					if(view.RedIDs[1].getText().length() < 10)
 					{
-						view.RedID1.setText(view.RedID1.getText()+view.IDnum);
+						view.RedIDs[1].setText(view.RedIDs[1].getText()+view.IDnum);
 					}
 					break;
 
 				// Adds text to Red2
 				case 2:
-					if(view.RedID2.getText().length() < 10)
+					if(view.RedIDs[2].getText().length() < 10)
 					{
-						view.RedID2.setText(view.RedID2.getText()+view.IDnum);
+						view.RedIDs[2].setText(view.RedIDs[2].getText()+view.IDnum);
 					}
 					break;
 
 				// Adds text to Green0
 				case 3:
-					if(view.GreenID0.getText().length() < 10)
+					if(view.GreenIDs[0].getText().length() < 10)
 					{
-						view.GreenID0.setText(view.GreenID0.getText()+view.IDnum);
+						view.GreenIDs[0].setText(view.GreenIDs[0].getText()+view.IDnum);
 					}
 					break;
 
 				// Adds text to Green1
 				case 4:
-					if(view.GreenID1.getText().length() < 10)
+					if(view.GreenIDs[1].getText().length() < 10)
 					{
-						view.GreenID1.setText(view.GreenID1.getText()+view.IDnum);
+						view.GreenIDs[1].setText(view.GreenIDs[1].getText()+view.IDnum);
 					}
 					break;
 
 				// Adds text to Green2
 				case 5:
-					if(view.GreenID2.getText().length() < 10)
+					if(view.GreenIDs[2].getText().length() < 10)
 					{
-						view.GreenID2.setText(view.GreenID2.getText()+view.IDnum);
+						view.GreenIDs[2].setText(view.GreenIDs[2].getText()+view.IDnum);
 					}
 					break;
 				
@@ -228,49 +228,49 @@ class Controller implements ActionListener, MouseListener, KeyListener
 			{
 				// Deletes text to Red0
 				case 0:
-					if(view.RedID0.getText().length() != 0)
+					if(view.RedIDs[0].getText().length() != 0)
 					{
-						view.RedID0.setText(view.RedID0.getText().substring(0, view.RedID0.getText().length() - 1));
+						view.RedIDs[0].setText(view.RedIDs[0].getText().substring(0, view.RedIDs[0].getText().length() - 1));
 					}
 					break;
 
 				// Deletes text to Red1
 				case 1:
-					if(view.RedID1.getText().length() != 0)
+					if(view.RedIDs[1].getText().length() != 0)
 					{
-						view.RedID1.setText(view.RedID1.getText().substring(0, view.RedID1.getText().length() - 1));
+						view.RedIDs[1].setText(view.RedIDs[1].getText().substring(0, view.RedIDs[1].getText().length() - 1));
 					}
 					break;
 
 				// Deletes text to Red2
 				case 2:
-					if(view.RedID2.getText().length() != 0)
+					if(view.RedIDs[2].getText().length() != 0)
 					{
-						view.RedID2.setText(view.RedID2.getText().substring(0, view.RedID2.getText().length() - 1));
+						view.RedIDs[2].setText(view.RedIDs[2].getText().substring(0, view.RedIDs[2].getText().length() - 1));
 					}
 					break;
 
 				// Adds text to Green0
 				case 3:
-					if(view.GreenID0.getText().length() != 0)
+					if(view.GreenIDs[0].getText().length() != 0)
 					{
-						view.GreenID0.setText(view.GreenID0.getText().substring(0, view.GreenID0.getText().length() - 1));
+						view.GreenIDs[0].setText(view.GreenIDs[0].getText().substring(0, view.GreenIDs[0].getText().length() - 1));
 					}
 					break;
 
 				// Adds text to Green1
 				case 4:
-					if(view.GreenID1.getText().length() != 0)
+					if(view.GreenIDs[1].getText().length() != 0)
 					{
-						view.GreenID1.setText(view.GreenID1.getText().substring(0, view.GreenID1.getText().length() - 1));
+						view.GreenIDs[1].setText(view.GreenIDs[1].getText().substring(0, view.GreenIDs[1].getText().length() - 1));
 					}
 					break;	
 
 				// Adds text to Green2
 				case 5:
-					if(view.GreenID2.getText().length() != 0)
+					if(view.GreenIDs[2].getText().length() != 0)
 					{
-						view.GreenID2.setText(view.GreenID2.getText().substring(0, view.GreenID2.getText().length() - 1));
+						view.GreenIDs[2].setText(view.GreenIDs[2].getText().substring(0, view.GreenIDs[2].getText().length() - 1));
 					}
 					break;
 			}
