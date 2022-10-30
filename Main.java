@@ -12,12 +12,14 @@ public class Main extends JFrame
 	Model model;
 	View view;
 	Controller controller;
+	DBConnector db;
 	
 	public Main()
 	{
+		db = new DBConnector();
 		model = new Model();
 		view = new View(model);
-		controller = new Controller(model, view);
+		controller = new Controller(model, view, db);
 		view.show(view);
 		view.addMouseListener(controller);
 		view.addKeyListener(controller);
@@ -42,7 +44,10 @@ public class Main extends JFrame
 
 	public static void main(String[] args)
 	{
+		DBConnector d = new DBConnector();
 		Main g = new Main();
+		d.getConnection();
+		//d.clearTable(); //Uncomment this line to delete all the rows in Table
 		g.run();
 	}
 }

@@ -18,10 +18,12 @@ class Controller implements ActionListener, MouseListener, KeyListener
 {
 	View view;
 	Model model;
+	DBConnector db;
 	
-	Controller(Model m, View v){
+	Controller(Model m, View v, DBConnector d){
 		model = m;
 		view = v;
+		db =  d;
 
 		// Button that confirms the ID is from the Database
 		view.btnConfirmID.addActionListener(e ->
@@ -34,9 +36,40 @@ class Controller implements ActionListener, MouseListener, KeyListener
 		// Button that updates the Database with usernames
 		view.btnFinishUsername.addActionListener(e ->
 		{
-		    // your code here
-			System.out.println("database add new usernames and IDs");
-			view.btnStartGame.setEnabled(true);
+		d.getConnection();
+		for(int i=0; i < view.numPerTeam; i++)
+			{
+			if(!view.GreenIDs[i].getText().isEmpty() && !view.GreenUsers[i].getText().isEmpty())
+			{
+				d.createPlayer(i, view.GreenIDs[i].getText(), null, view.GreenUsers[i].getText());
+				System.out.println("Player creation info has pushed to DB: " + i);
+				view.btnStartGame.setEnabled(true);
+			}
+			else if(view.GreenIDs[i].getText().isEmpty() && view.GreenUsers[i].getText().isEmpty())
+			{
+				System.out.println("Pass");
+			}
+			else
+			{
+				System.out.println("Missing or Invalid input on Green Textbox " + i);
+				view.btnStartGame.setEnabled(false);
+			}
+			if(!view.RedIDs[i].getText().isEmpty() && !view.RedUsers[i].getText().isEmpty())
+				{
+					d.createPlayer(i, view.RedIDs[i].getText(), null, view.RedUsers[i].getText());
+					System.out.println("Player creation info has pushed to DB: " + i);
+					view.btnStartGame.setEnabled(true);
+				}
+				else if(view.RedIDs[i].getText().isEmpty() && view.RedUsers[i].getText().isEmpty())
+				{
+					System.out.println("Pass");
+				}
+				else
+				{
+					System.out.println("Missing or Invalid input on Red Textbox " + i);
+					view.btnStartGame.setEnabled(false);
+				}
+			}
 		});
 
 		// Button that starts the game

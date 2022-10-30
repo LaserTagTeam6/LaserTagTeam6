@@ -67,7 +67,8 @@ class View extends JPanel{
 	
 	public JButton btnConfirmID, btnStartGame, btnMoveRight, btnMoveLeft, btnFinishUsername, btnNewButton_5;
 	private JPanel contentPane;
-	private BufferedImage splashScreen;
+	//private BufferedImage splashScreen;
+	private Image splashScreen;
 	
 
 
@@ -130,7 +131,8 @@ class View extends JPanel{
 
 		try
 		{
-			this.splashScreen = ImageIO.read(new File("NewSplashScreen.jpg"));
+			//this.splashScreen = ImageIO.read(new File("NewSplashScreen.jpg"));
+			this.splashScreen = Toolkit.getDefaultToolkit().getImage(View.class.getResource("./Images/NewSplashScreen.jpg"));
 
 		}
 		catch(Exception e)
@@ -220,7 +222,7 @@ class View extends JPanel{
 		//--------------------------------------------Red Users------------------------------------------//
 		for(int i = 0; i<numPerTeam; i++) {
 			RedUsers[i] = new JTextField();
-			RedUsers[i].setEnabled(false);
+			RedUsers[i].setEnabled(true);
 			gbc_RedUser[i] = new GridBagConstraints();
 			gbc_RedUser[i].insets = new Insets(0, 0, 5, 0);
 			gbc_RedUser[i].fill = GridBagConstraints.HORIZONTAL;
@@ -286,7 +288,7 @@ class View extends JPanel{
 		//--------------------------------------------Green Users------------------------------------------//
 		for(int i = 0; i<numPerTeam; i++) {
 			GreenUsers[i] = new JTextField();
-			GreenUsers[i].setEnabled(false); 
+			GreenUsers[i].setEnabled(true); 
 			gbc_GreenUser[i] = new GridBagConstraints();
 			gbc_GreenUser[i].insets = new Insets(0, 0, 5, 0);
 			gbc_GreenUser[i].fill = GridBagConstraints.HORIZONTAL;
