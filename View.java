@@ -34,12 +34,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.Image;
 import java.lang.Object;
+import java.text.DecimalFormat;
+import java.awt.SystemColor;
+import javax.swing.BoxLayout;
+import javax.swing.JTabbedPane;
+import java.awt.Font;
+import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
 
 
 
 class View extends JPanel{
 
 	protected int numPerTeam = 15;
+	public int minutesRemaining = 6;
+	public int secondsRemaining = 00;
+	DecimalFormat formatter = new DecimalFormat("00");
+	String secondsFormatted = formatter.format(secondsRemaining);
 	
 	
 	Model model;
@@ -48,60 +59,99 @@ class View extends JPanel{
 	public int playerIndex = 0;
 	public boolean deleteNum = false;
 	public String lastNum = "Nothing";
-	JFrame frmLasertag;
+	JFrame frmLasertagCharacter, frmLasertagGame;
 	
 	//green team data
 	private JLabel[] GreenLabels = new JLabel[numPerTeam];
-	JTextField[] GreenUsers = new JTextField[numPerTeam];
-	JTextField[] GreenIDs = new JTextField[numPerTeam];
+	public JTextField[] GreenUsers = new JTextField[numPerTeam];
+	public JTextField[] GreenIDs = new JTextField[numPerTeam];
 	private GridBagConstraints[] gbc_lblGreen = new GridBagConstraints[numPerTeam];
 	private GridBagConstraints[] gbc_GreenID = new GridBagConstraints[numPerTeam];
 	private GridBagConstraints[] gbc_GreenUser = new GridBagConstraints[numPerTeam];
 	//red team data
 	private JLabel[] RedLabels = new JLabel[numPerTeam];
-	JTextField[] RedUsers = new JTextField[numPerTeam];
-	JTextField[] RedIDs = new JTextField[numPerTeam];
+	public JTextField[] RedUsers = new JTextField[numPerTeam];
+	public JTextField[] RedIDs = new JTextField[numPerTeam];
 	private GridBagConstraints[] gbc_lblRed = new GridBagConstraints[numPerTeam];
 	private GridBagConstraints[] gbc_RedID = new GridBagConstraints[numPerTeam];
 	private GridBagConstraints[] gbc_RedUser = new GridBagConstraints[numPerTeam];
-	
+	//buttons
 	public JButton btnConfirmID, btnStartGame, btnMoveRight, btnMoveLeft, btnFinishUsername, btnNewButton_5;
 	private JPanel contentPane;
+	//game screen score data
+	//red
+	public JLabel lblRedTotalScore;
+	public JLabel[] lblRedUsers = new JLabel[numPerTeam];
+	private GridBagConstraints[] gbc_lblRedUsers = new GridBagConstraints[numPerTeam];
+	public JLabel[] lblRedScores = new JLabel[numPerTeam];
+	private GridBagConstraints[] gbc_lblRedScore = new GridBagConstraints[numPerTeam];
+	//green
+	public JLabel lblGreenTotalScore;
+	public JLabel[] lblGreenUsers = new JLabel[numPerTeam];
+	private GridBagConstraints[] gbc_lblGreenUsers = new GridBagConstraints[numPerTeam];
+	public JLabel[] lblGreenScores = new JLabel[numPerTeam];
+	private GridBagConstraints[] gbc_lblGreenScore = new GridBagConstraints[numPerTeam];
+	
 	//private BufferedImage splashScreen;
 	private Image splashScreen;
+	private JPanel panel;
+	private JLabel lblNewLabel;
+	private JPanel panel_1;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 	
 
 
-	// Create the application.
+	// Create the data for each application screen.
 	View(Model m) {
 		model = m;
-		frmLasertag = new JFrame();
-		frmLasertag.setIconImage(Toolkit.getDefaultToolkit().getImage(View.class.getResource("/Images/360_F_330853301_Ymj2OjSqxhYYFVXE7WiRzuRgYNUVgvy5.jpg")));
-		frmLasertag.getContentPane().setBackground(new Color(0, 0, 205));
-		frmLasertag.setTitle("LaserTag");
-		frmLasertag.setBounds(100, 100, 600, 562);
-		frmLasertag.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmLasertag.setVisible(true);
-		initialize();
+		
+		//-------Splash/Character Creation Screen Frame Data
+		frmLasertagCharacter = new JFrame();
+		frmLasertagCharacter.setIconImage(Toolkit.getDefaultToolkit().getImage(View.class.getResource("/Images/360_F_330853301_Ymj2OjSqxhYYFVXE7WiRzuRgYNUVgvy5.jpg")));
+		frmLasertagCharacter.getContentPane().setBackground(new Color(0, 0, 0));
+		frmLasertagCharacter.setTitle("Photon Laser Tag");
+		frmLasertagCharacter.setBounds(100, 100, 600, 550);
+		frmLasertagCharacter.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//-------Game Screen Frame Data
+		frmLasertagGame = new JFrame();
+		frmLasertagGame.setIconImage(Toolkit.getDefaultToolkit().getImage(View.class.getResource("/Images/360_F_330853301_Ymj2OjSqxhYYFVXE7WiRzuRgYNUVgvy5.jpg")));
+		frmLasertagGame.getContentPane().setBackground(new Color(0, 0, 0));
+		frmLasertagGame.setTitle("LaserTag Game Screen");
+		frmLasertagGame.setBounds(100, 100, 600, 600);
+		frmLasertagGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
+		
+		//Commented out 10/30/22 not needed here
+		//frmLasertagCharacter.setVisible(true);
+		//frmLasertagGame.setVisible(true);
+		initializeCharacterScreen();
+		initializeGameScreen();
 		
 	}
 	
-	public void show(View window)
+	public void showCharacterScreen(View window)
 	{
-		window.frmLasertag.setVisible(true);
+		window.frmLasertagCharacter.setVisible(true);
+	}
+	
+	public void showGameScreen(View window)
+	{
+		window.frmLasertagGame.setVisible(true);
 	}
 
 	
 	 //----------------------------Initialize the contents of the frame---------------------------------------//
-	
-	
-	private void initialize() {
+	private void initializeCharacterScreen() {
 		
 		//-------------------------------------------Splash Screen-------------------------------------------//
 		JPanel panelsplash = new JPanel();
-		panelsplash.setForeground(new Color(0, 0, 205));
-		panelsplash.setBackground(new Color(0, 0, 205));
-		frmLasertag.getContentPane().add(panelsplash, BorderLayout.SOUTH);
+		panelsplash.setForeground(new Color(0, 0, 0));
+		panelsplash.setBackground(new Color(0, 0, 0));
+		frmLasertagCharacter.getContentPane().add(panelsplash, BorderLayout.SOUTH);
 		GridBagLayout gbl_panelsplash = new GridBagLayout();
 		gbl_panelsplash.columnWidths = new int[]{50, 146, 50, 0};
 		gbl_panelsplash.rowHeights = new int[]{14, 50, 0};
@@ -121,7 +171,7 @@ class View extends JPanel{
 		panelsplash.add(progressBar, gbc_progressBar);
 				
 		JPanel panelsplash_1 = new JPanel();
-		panelsplash_1.setBackground(new Color(0, 0, 205));
+		panelsplash_1.setBackground(new Color(0, 0, 0));
 		GridBagConstraints gbc_panelsplash_1 = new GridBagConstraints();
 		gbc_panelsplash_1.anchor = GridBagConstraints.SOUTH;
 		gbc_panelsplash_1.fill = GridBagConstraints.HORIZONTAL;
@@ -143,10 +193,10 @@ class View extends JPanel{
 		ImageIcon icon = new ImageIcon(this.splashScreen);
 		JLabel lblNewLabelSplash = new JLabel();
 		lblNewLabelSplash.setIcon(icon);
-		frmLasertag.add(lblNewLabelSplash);
-		frmLasertag.setVisible(true);
+		frmLasertagCharacter.add(lblNewLabelSplash);
+		frmLasertagCharacter.setVisible(true);
 		lblNewLabelSplash.setHorizontalAlignment(SwingConstants.CENTER);
-		frmLasertag.getContentPane().add(lblNewLabelSplash, BorderLayout.CENTER);
+		frmLasertagCharacter.getContentPane().add(lblNewLabelSplash, BorderLayout.CENTER);
 
 		//----------------------------------------Removes Splash Screen-------------------------------------------//
 		for(int i = 0; i < 100; i++){
@@ -157,41 +207,100 @@ class View extends JPanel{
 			progressBar.setValue(i);
 		}
 
-		frmLasertag.getContentPane().remove(lblNewLabelSplash);
-		frmLasertag.getContentPane().remove(progressBar);
-		frmLasertag.getContentPane().remove(panelsplash);
-		frmLasertag.getContentPane().remove(panelsplash_1);
-		frmLasertag.repaint();
+		frmLasertagCharacter.getContentPane().remove(lblNewLabelSplash);
+		frmLasertagCharacter.getContentPane().remove(progressBar);
+		frmLasertagCharacter.getContentPane().remove(panelsplash);
+		frmLasertagCharacter.getContentPane().remove(panelsplash_1);
+		frmLasertagCharacter.repaint();
 
 
 		//-------------------------------------------Red Team------------------------------------------------//
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{100, 100, 100, 100, 0};
-		gridBagLayout.rowHeights = new int[]{193, 23, 23, 0};
+		gridBagLayout.rowHeights = new int[]{0, 193, 23, 23, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
-		frmLasertag.getContentPane().setLayout(gridBagLayout);
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		frmLasertagCharacter.getContentPane().setLayout(gridBagLayout);
+		
+		lblNewLabel_2 = new JLabel("Character Creation");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setForeground(new Color(0, 255, 255));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.gridwidth = 4;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 0;
+		gbc_lblNewLabel_2.gridy = 0;
+		frmLasertagCharacter.getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		panel.setBackground(new Color(0, 0, 0));
+		panel.setForeground(new Color(0, 0, 0));
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.gridwidth = 2;
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 1;
+		frmLasertagCharacter.getContentPane().add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{200, 0};
+		gbl_panel.rowHeights = new int[]{0, 233, 0};
+		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		lblNewLabel = new JLabel("Red Team");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBackground(new Color(0, 0, 0));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setForeground(new Color(250, 128, 114));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		panel.add(lblNewLabel, gbc_lblNewLabel);
 		
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.gridwidth = 2;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 0;
+		gbc_scrollPane.gridy = 1;
+		panel.add(scrollPane, gbc_scrollPane);
+		scrollPane.setViewportBorder(null);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		
 		JPanel redpanel = new JPanel();
+		redpanel.setBorder(null);
 		redpanel.setBackground(new Color(240, 128, 128));
 		scrollPane.setViewportView(redpanel);
 		GridBagLayout gbl_redpanel = new GridBagLayout();
 		gbl_redpanel.columnWidths = new int[]{20, 0, 0, 0};
-		gbl_redpanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_redpanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_redpanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_redpanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_redpanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		redpanel.setLayout(gbl_redpanel);
+		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		panel_1.setBackground(new Color(0, 0, 0));
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.gridwidth = 2;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 2;
+		gbc_panel_1.gridy = 1;
+		frmLasertagCharacter.getContentPane().add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{200, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 11, 0};
+		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
 
 		//--------------------------------------------Red Labels------------------------------------------//
@@ -231,35 +340,39 @@ class View extends JPanel{
 			redpanel.add(RedUsers[i], gbc_RedUser[i]);
 			RedUsers[0].setColumns(10);
 		}
-		
-		
-		//--------------------------------------------Red Team Label------------------------------------------//
-		JLabel lblRedTeam = new JLabel("Red Team");
-		lblRedTeam.setHorizontalAlignment(SwingConstants.CENTER);
-		scrollPane.setColumnHeaderView(lblRedTeam);
-		
+				
+				lblNewLabel_1 = new JLabel("Green Team");
+				lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel_1.setForeground(new Color(144, 238, 144));
+				lblNewLabel_1.setBackground(new Color(0, 0, 0));
+				lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+				GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+				gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
+				gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+				gbc_lblNewLabel_1.gridx = 0;
+				gbc_lblNewLabel_1.gridy = 0;
+				panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		//--------------------------------------------Green Team------------------------------------------//
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane_1.gridwidth = 2;
-		gbc_scrollPane_1.gridx = 2;
-		gbc_scrollPane_1.gridy = 0;
-		
-		JPanel greenpanel = new JPanel();
-		greenpanel.setBackground(new Color(144, 238, 144));
-		scrollPane_1.setViewportView(greenpanel);
-		GridBagLayout gbl_greenpanel = new GridBagLayout();
-		gbl_greenpanel.columnWidths = new int[]{20, 0, 0, 0};
-		gbl_greenpanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_greenpanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_greenpanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		greenpanel.setLayout(gbl_greenpanel);
-		
-		
+				JScrollPane scrollPane_1 = new JScrollPane();
+				GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+				gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+				gbc_scrollPane_1.gridx = 0;
+				gbc_scrollPane_1.gridy = 1;
+				panel_1.add(scrollPane_1, gbc_scrollPane_1);
+				scrollPane_1.setViewportBorder(null);
+				scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				
+				JPanel greenpanel = new JPanel();
+				greenpanel.setBackground(new Color(144, 238, 144));
+				scrollPane_1.setViewportView(greenpanel);
+				GridBagLayout gbl_greenpanel = new GridBagLayout();
+				gbl_greenpanel.columnWidths = new int[]{20, 0, 0, 0};
+				gbl_greenpanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+				gbl_greenpanel.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+				gbl_greenpanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+				greenpanel.setLayout(gbl_greenpanel);
+				
 		//--------------------------------------------Green Labels------------------------------------------//
 		for(int i = 0; i<numPerTeam; i++) {
 			GreenLabels[i] = new JLabel(String.valueOf(i));
@@ -297,30 +410,27 @@ class View extends JPanel{
 			greenpanel.add(GreenUsers[i], gbc_GreenUser[i]);
 			GreenUsers[i].setColumns(10);
 		}
-		
-		
-		//--------------------------------------------Green Team Label------------------------------------------//
-		JLabel lblGreenTeam = new JLabel("Green Team");
-		lblGreenTeam.setHorizontalAlignment(SwingConstants.CENTER);
-		scrollPane_1.setColumnHeaderView(lblGreenTeam);
 
 
 		//--------------------------------------------Buttons------------------------------------------//
 		btnConfirmID = new JButton("Finish ID Entry");
+		btnConfirmID.setForeground(new Color(0, 0, 0));
+		btnConfirmID.setBackground(UIManager.getColor("Button.background"));
 		GridBagConstraints gbc_btnConfirmID = new GridBagConstraints();
 		gbc_btnConfirmID.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnConfirmID.insets = new Insets(0, 0, 5, 5);
 		gbc_btnConfirmID.gridx = 0;
-		gbc_btnConfirmID.gridy = 1;
+		gbc_btnConfirmID.gridy = 2;
 		
 		btnFinishUsername = new JButton("Finish Username");
+		btnFinishUsername.setBackground(new Color(240, 240, 240));
 		btnFinishUsername.setEnabled(false);
 		GridBagConstraints gbc_btnFinishUsername = new GridBagConstraints();
 		gbc_btnFinishUsername.anchor = GridBagConstraints.EAST;
 		gbc_btnFinishUsername.fill = GridBagConstraints.VERTICAL;
 		gbc_btnFinishUsername.insets = new Insets(0, 0, 5, 5);
 		gbc_btnFinishUsername.gridx = 1;
-		gbc_btnFinishUsername.gridy = 1;
+		gbc_btnFinishUsername.gridy = 2;
 		
 		btnMoveRight = new JButton("----->");
 		btnMoveRight.setEnabled(false);
@@ -328,7 +438,7 @@ class View extends JPanel{
 		gbc_btnMoveRight.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnMoveRight.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMoveRight.gridx = 2;
-		gbc_btnMoveRight.gridy = 1;
+		gbc_btnMoveRight.gridy = 2;
 		
 		btnNewButton_5 = new JButton("Placeholder");
 		btnNewButton_5.setEnabled(false);
@@ -336,7 +446,7 @@ class View extends JPanel{
 		gbc_btnNewButton_5.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnNewButton_5.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton_5.gridx = 3;
-		gbc_btnNewButton_5.gridy = 1;
+		gbc_btnNewButton_5.gridy = 2;
 		
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setEnabled(false);
@@ -344,7 +454,7 @@ class View extends JPanel{
 		gbc_btnStartGame.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnStartGame.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStartGame.gridx = 0;
-		gbc_btnStartGame.gridy = 2;
+		gbc_btnStartGame.gridy = 3;
 		
 		btnMoveLeft = new JButton("<-----");
 		btnMoveLeft.setEnabled(false);
@@ -352,19 +462,223 @@ class View extends JPanel{
 		gbc_btnNewButton_3.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNewButton_3.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton_3.gridx = 2;
-		gbc_btnNewButton_3.gridy = 2;
+		gbc_btnNewButton_3.gridy = 3;
+		
+		frmLasertagCharacter.getContentPane().add(btnConfirmID, gbc_btnConfirmID);
+		frmLasertagCharacter.getContentPane().add(btnFinishUsername, gbc_btnFinishUsername);
+		frmLasertagCharacter.getContentPane().add(btnMoveRight, gbc_btnMoveRight);
+		frmLasertagCharacter.getContentPane().add(btnNewButton_5, gbc_btnNewButton_5);
+		frmLasertagCharacter.getContentPane().add(btnStartGame, gbc_btnStartGame);
+		frmLasertagCharacter.getContentPane().add(btnMoveLeft, gbc_btnNewButton_3);
 		
 		
-		
-		
-		frmLasertag.getContentPane().add(scrollPane, gbc_scrollPane);
-		frmLasertag.getContentPane().add(scrollPane_1, gbc_scrollPane_1);
-		frmLasertag.getContentPane().add(btnConfirmID, gbc_btnConfirmID);
-		frmLasertag.getContentPane().add(btnFinishUsername, gbc_btnFinishUsername);
-		frmLasertag.getContentPane().add(btnMoveRight, gbc_btnMoveRight);
-		frmLasertag.getContentPane().add(btnNewButton_5, gbc_btnNewButton_5);
-		frmLasertag.getContentPane().add(btnStartGame, gbc_btnStartGame);
-		frmLasertag.getContentPane().add(btnMoveLeft, gbc_btnNewButton_3);
 	}
 
+
+	private void initializeGameScreen() {
+		GridBagLayout gridBagLayoutGame = new GridBagLayout();
+		gridBagLayoutGame.columnWidths = new int[]{0, 0};
+		gridBagLayoutGame.rowHeights = new int[]{0, 0, 40, 0};
+		gridBagLayoutGame.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayoutGame.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
+		frmLasertagGame.getContentPane().setLayout(gridBagLayoutGame);
+		
+		JPanel score_panels = new JPanel();
+		score_panels.setBackground(new Color(0, 0, 0));
+		GridBagConstraints gbc_score_panels = new GridBagConstraints();
+		gbc_score_panels.insets = new Insets(0, 0, 5, 0);
+		gbc_score_panels.fill = GridBagConstraints.BOTH;
+		gbc_score_panels.gridx = 0;
+		gbc_score_panels.gridy = 0;
+		frmLasertagGame.getContentPane().add(score_panels, gbc_score_panels);
+		
+		GridBagLayout gbl_score_panels = new GridBagLayout();
+		gbl_score_panels.columnWidths = new int[]{0, 0, 0};
+		gbl_score_panels.rowHeights = new int[]{0, 160, 0};
+		gbl_score_panels.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_score_panels.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		score_panels.setLayout(gbl_score_panels);
+		
+		JLabel lblCurrentScores = new JLabel("Current Scores");
+		lblCurrentScores.setForeground(new Color(0, 255, 255));
+		lblCurrentScores.setFont(new Font("Tahoma", Font.BOLD, 16));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.gridwidth = 2;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 0;
+		score_panels.add(lblCurrentScores, gbc_lblNewLabel_1);
+		
+		JPanel red_team_panel = new JPanel();
+		red_team_panel.setBackground(new Color(0, 0, 0));
+		red_team_panel.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		GridBagConstraints gbc_red_team_panel = new GridBagConstraints();
+		gbc_red_team_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_red_team_panel.fill = GridBagConstraints.BOTH;
+		gbc_red_team_panel.gridx = 0;
+		gbc_red_team_panel.gridy = 1;
+		score_panels.add(red_team_panel, gbc_red_team_panel);
+		GridBagLayout gbl_red_team_panel = new GridBagLayout();
+		gbl_red_team_panel.columnWidths = new int[]{0, 70, 0};
+		gbl_red_team_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_red_team_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_red_team_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		red_team_panel.setLayout(gbl_red_team_panel);
+		
+		
+		//--------------------------------------------Red Team------------------------------------------//
+		JLabel lblRedTeamGame = new JLabel("Red Team");
+		lblRedTeamGame.setForeground(new Color(250, 128, 114));
+		GridBagConstraints gbc_lblRedTeamGame = new GridBagConstraints();
+		gbc_lblRedTeamGame.anchor = GridBagConstraints.NORTH;
+		gbc_lblRedTeamGame.gridwidth = 2;
+		gbc_lblRedTeamGame.insets = new Insets(0, 0, 5, 0);
+		gbc_lblRedTeamGame.gridx = 0;
+		gbc_lblRedTeamGame.gridy = 0;
+		red_team_panel.add(lblRedTeamGame, gbc_lblRedTeamGame);
+		lblRedTeamGame.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		
+		//--------------------------------------------Red Users Game Display------------------------------------------//
+		for(int i = 0; i<numPerTeam; i++) {
+			lblRedUsers[i] = new JLabel("Red Empty");
+			lblRedUsers[i].setForeground(new Color(250, 128, 114));
+			gbc_lblRedUsers[i] = new GridBagConstraints();
+			gbc_lblRedUsers[i].insets = new Insets(0, 0, 5, 5);
+			gbc_lblRedUsers[i].gridx = 0;
+			gbc_lblRedUsers[i].gridy = i+1;
+			red_team_panel.add(lblRedUsers[i], gbc_lblRedUsers[i]);
+		}
+		
+		
+		//--------------------------------------------Red Scores------------------------------------------//
+		for(int i = 0; i<numPerTeam; i++) {
+			lblRedScores[i] = new JLabel("0000");
+			lblRedScores[i].setForeground(new Color(250, 128, 114));
+			gbc_lblRedScore[i] = new GridBagConstraints();
+			gbc_lblRedScore[i].insets = new Insets(0, 0, 5, 5);
+			gbc_lblRedScore[i].gridx = 1;
+			gbc_lblRedScore[i].gridy = i+1;
+			red_team_panel.add(lblRedScores[i], gbc_lblRedScore[i]);
+		}
+		
+		//--------------------------------------------Red Team Total Score------------------------------------------//
+		lblRedTotalScore = new JLabel("0000");
+		lblRedTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblRedTotalScore.setForeground(new Color(250, 128, 114));
+		GridBagConstraints gbc_lblRedTotalScore = new GridBagConstraints();
+		gbc_lblRedTotalScore.anchor = GridBagConstraints.SOUTH;
+		gbc_lblRedTotalScore.gridx = 1;
+		gbc_lblRedTotalScore.gridy = numPerTeam + 1;
+		red_team_panel.add(lblRedTotalScore, gbc_lblRedTotalScore);
+		
+		JPanel green_team_panel = new JPanel();
+		green_team_panel.setBackground(new Color(0, 0, 0));
+		green_team_panel.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		GridBagConstraints gbc_green_team_panel = new GridBagConstraints();
+		gbc_green_team_panel.fill = GridBagConstraints.BOTH;
+		gbc_green_team_panel.gridx = 1;
+		gbc_green_team_panel.gridy = 1;
+		score_panels.add(green_team_panel, gbc_green_team_panel);
+		GridBagLayout gbl_green_team_panel = new GridBagLayout();
+		gbl_green_team_panel.columnWidths = new int[]{0, 70, 0};
+		gbl_green_team_panel.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_green_team_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_green_team_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+		green_team_panel.setLayout(gbl_green_team_panel);
+		
+		//--------------------------------------------Green Team------------------------------------------//
+		JLabel lblGreenTeamGame = new JLabel("Green Team");
+		lblGreenTeamGame.setForeground(new Color(144, 238, 144));
+		GridBagConstraints gbc_lblGreenTeamGame = new GridBagConstraints();
+		gbc_lblGreenTeamGame.anchor = GridBagConstraints.NORTH;
+		gbc_lblGreenTeamGame.gridwidth = 2;
+		gbc_lblGreenTeamGame.insets = new Insets(0, 0, 5, 0);
+		gbc_lblGreenTeamGame.gridx = 0;
+		gbc_lblGreenTeamGame.gridy = 0;
+		green_team_panel.add(lblGreenTeamGame, gbc_lblGreenTeamGame);
+		lblGreenTeamGame.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
+		//--------------------------------------------Green Users Game Display------------------------------------------//
+		for(int i = 0; i<numPerTeam; i++) {
+			lblGreenUsers[i] = new JLabel("Green Empty");
+			lblGreenUsers[i].setForeground(new Color(144, 238, 144));
+			gbc_lblGreenUsers[i] = new GridBagConstraints();
+			gbc_lblGreenUsers[i].insets = new Insets(0, 0, 5, 5);
+			gbc_lblGreenUsers[i].gridx = 0;
+			gbc_lblGreenUsers[i].gridy = i+1;
+			green_team_panel.add(lblGreenUsers[i], gbc_lblGreenUsers[i]);
+		}
+		
+		//--------------------------------------------Green Scores------------------------------------------//
+		for(int i = 0; i<numPerTeam; i++) {
+			lblGreenScores[i] = new JLabel("0000");
+			lblGreenScores[i].setForeground(new Color(144, 238, 144));
+			gbc_lblGreenScore[i] = new GridBagConstraints();
+			gbc_lblGreenScore[i].insets = new Insets(0, 0, 5, 0);
+			gbc_lblGreenScore[i].gridx = 1;
+			gbc_lblGreenScore[i].gridy = i+1;
+			green_team_panel.add(lblGreenScores[i], gbc_lblGreenScore[i]);
+		}
+		
+		//--------------------------------------------Green Team Total Scores------------------------------------------//
+		lblGreenTotalScore = new JLabel("0000");
+		lblGreenTotalScore.setForeground(new Color(144, 238, 144));
+		lblGreenTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
+		GridBagConstraints gbc_lblGreenTotalScore = new GridBagConstraints();
+		gbc_lblGreenTotalScore.anchor = GridBagConstraints.SOUTH;
+		gbc_lblGreenTotalScore.gridx = 1;
+		gbc_lblGreenTotalScore.gridy = numPerTeam+1;
+		green_team_panel.add(lblGreenTotalScore, gbc_lblGreenTotalScore);
+		
+		
+		//--------------------------------------------Hit History------------------------------------------//
+		JPanel hit_counter_display = new JPanel();
+		hit_counter_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		hit_counter_display.setBackground(new Color(30, 144, 255));
+		GridBagConstraints gbc_hit_counter_display = new GridBagConstraints();
+		gbc_hit_counter_display.insets = new Insets(0, 0, 5, 0);
+		gbc_hit_counter_display.fill = GridBagConstraints.BOTH;
+		gbc_hit_counter_display.gridx = 0;
+		gbc_hit_counter_display.gridy = 1;
+		frmLasertagGame.getContentPane().add(hit_counter_display, gbc_hit_counter_display);
+		hit_counter_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		//--------------------------------------------Time Remaining Display------------------------------------------//
+		JPanel time_display = new JPanel();
+		time_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		time_display.setBackground(new Color(0, 0, 0));
+		GridBagConstraints gbc_time_display = new GridBagConstraints();
+		gbc_time_display.anchor = GridBagConstraints.SOUTH;
+		gbc_time_display.fill = GridBagConstraints.HORIZONTAL;
+		gbc_time_display.gridx = 0;
+		gbc_time_display.gridy = 2;
+		frmLasertagGame.getContentPane().add(time_display, gbc_time_display);
+		time_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblDNCTimeRemaining = new JLabel("Time Remaining:");
+		lblDNCTimeRemaining.setForeground(new Color(255, 255, 255));
+		lblDNCTimeRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDNCTimeRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
+		time_display.add(lblDNCTimeRemaining);
+		
+		JLabel lblMinutesRemaining = new JLabel(String.valueOf(minutesRemaining));
+		lblMinutesRemaining.setForeground(new Color(255, 255, 255));
+		lblMinutesRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblMinutesRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
+		time_display.add(lblMinutesRemaining);
+		
+		JLabel lblsemicolon = new JLabel(":");
+		lblsemicolon.setForeground(new Color(255, 255, 255));
+		lblsemicolon.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblsemicolon.setFont(new Font("Yu Gothic", Font.BOLD, 16));
+		time_display.add(lblsemicolon);
+		
+		JLabel lblSecondsRemaining = new JLabel(String.valueOf(secondsFormatted));
+		lblSecondsRemaining.setForeground(new Color(255, 255, 255));
+		lblSecondsRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblSecondsRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
+		time_display.add(lblSecondsRemaining);
+	}
 }
+
