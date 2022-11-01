@@ -26,7 +26,7 @@ class Controller implements ActionListener, MouseListener, KeyListener
 		db =  d;
 
 		// Button that confirms the ID is from the Database
-		view.btnConfirmID.addActionListener(e ->
+		/*view.btnConfirmID.addActionListener(e ->
 		{
 		    // your code here
 			System.out.println("database player ID query");
@@ -78,11 +78,12 @@ class Controller implements ActionListener, MouseListener, KeyListener
 		    // your code here
 			System.out.println("game start");
 			//view.frmLasertag.dispose();
-			System.exit(0);
+			//System.exit(0);
+			view.showGameScreen(v);
 		});
 
 		// Looks for the user keyboard inputs
-		view.frmLasertag.addKeyListener(new KeyListener() {
+		view.frmLasertagCharacter.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) { }
 		
@@ -168,7 +169,7 @@ class Controller implements ActionListener, MouseListener, KeyListener
 			@Override
 			public void keyTyped(KeyEvent e) { }
 				
-		});
+		});*/
 
 	}
 

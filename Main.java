@@ -20,7 +20,8 @@ public class Main extends JFrame
 		model = new Model();
 		view = new View(model);
 		controller = new Controller(model, view, db);
-		view.show(view);
+		view.showCharacterScreen(view);
+		view.showGameScreen(view);
 		view.addMouseListener(controller);
 		view.addKeyListener(controller);
 	}
