@@ -130,7 +130,7 @@ class View extends JPanel{
 		
 		//Commented out 10/30/22 not needed here
 		//frmLasertagCharacter.setVisible(true);
-		//frmLasertagGame.setVisible(true);
+		frmLasertagGame.setVisible(false);
 		initializeCharacterScreen();
 		//initializeGameScreen();
 		

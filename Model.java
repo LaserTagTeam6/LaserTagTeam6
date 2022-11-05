@@ -1,8 +1,3 @@
-/*
-Name: Team 6
-Project: Laser Tag
-Date: 09/30/2022
-*/
 import java.util.concurrent.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -32,8 +27,7 @@ class Model
         };
 		scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
     }
-
-
+    
 	public void update(){
 	}
 }
