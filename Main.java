@@ -16,12 +16,12 @@ public class Main extends JFrame
 	
 	public Main()
 	{
-		db = new DBConnector();
 		model = new Model();
-		view = new View(model);
+		db = new DBConnector();
+		view = new View(model, db);
 		controller = new Controller(model, view, db);
 		view.showCharacterScreen(view);
-		view.showGameScreen(view);
+		//view.showGameScreen(view);
 		view.addMouseListener(controller);
 		view.addKeyListener(controller);
 	}
@@ -45,10 +45,10 @@ public class Main extends JFrame
 
 	public static void main(String[] args)
 	{
-		DBConnector d = new DBConnector();
 		Main g = new Main();
-		d.getConnection();
-		//d.clearTable(); //Uncomment this line to delete all the rows in Table
+		g.db.getConnection();
+		//g.db.pullPlayer("red");
+		g.db.clearTable(); //Don't uncomment this, or the tables might clutter with data
 		g.run();
 	}
 }

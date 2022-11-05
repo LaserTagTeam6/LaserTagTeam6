@@ -1,4 +1,3 @@
-
 /*
 Name: Team 6
 Project: Laser Tag
@@ -33,6 +32,7 @@ class Model
         };
 		scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
     }
+
 
 	public void update(){
 	}

@@ -12,6 +12,7 @@ public class DBConnector {
 
     Connection conn;
     Statement stm;
+    
 
     DBConnector() {
         //Connection conn = null;
@@ -42,7 +43,7 @@ public void clearTable(){
             //String ClearDB = "DELETE FROM player WHERE last_name IS NULL;";
             String ClearDB = "DELETE FROM player;";
             stm.executeUpdate(ClearDB);
-            System.out.println("TABLE HAS BEEN CLEARED");
+            //System.out.println("TABLE HAS BEEN CLEARED");
         }
         else{
             System.out.println("There is no connection, failed to send createPlayer Query");
@@ -54,16 +55,14 @@ public void clearTable(){
     }
 }
 
-public void createPlayer(int id, String firstName, String lastName, String codeName){
+public void createPlayer(int id, String firstName, String lastName, String codeName, String color){
     try{
         if(!conn.isClosed()){
             //Create SQL Query
             Statement SQLstatement = conn.createStatement();
-            String InsertToDB = "INSERT INTO player VALUES ('" + id + "','" + firstName + "','" + lastName + "','" + codeName + "');";
+            String InsertToDB = "INSERT INTO player VALUES ('" + id + "','" + firstName + "','" + lastName + "','" + codeName + "','" + color + "');";
             SQLstatement.executeUpdate(InsertToDB);
-            System.out.println("PLAYER INFO INSERTED INTO DB");
-            
-            //Compare to DBPull - Do later
+            //System.out.println("PLAYER INFO INSERTED INTO DB");
         }
         else{
             System.out.println("There is no connection, failed to send createPlayer Query");
@@ -76,4 +75,30 @@ public void createPlayer(int id, String firstName, String lastName, String codeN
     }
 }
 
+public ArrayList<String> pullPlayer(String color){
+    ArrayList<String> codenameList = new ArrayList<String>();
+    try{
+        if(!conn.isClosed()){
+            Statement SQLstatement = conn.createStatement();
+            String PullFromDB = "SELECT codename from player WHERE color = " + "'" + color + "'" + ";";
+
+            ResultSet rs = SQLstatement.executeQuery(PullFromDB);
+                while(rs.next())
+                {
+                    String DBcodename = rs.getString("codename");
+                    codenameList.add(DBcodename);
+                }
+        }
+        else{
+            System.out.println("There is no connection, failed to send createPlayer Query");
+        }
+    }
+    catch(SQLException e )
+    {
+        System.out.println("PULL FAILED");
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        return null;
+    }
+    return codenameList;
+}
 }

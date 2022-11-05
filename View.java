@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
@@ -54,6 +55,7 @@ class View extends JPanel{
 	
 	
 	Model model;
+	DBConnector db;
 	public boolean addNum = false;
 	public int IDnum = 0;
 	public int playerIndex = 0;
@@ -103,8 +105,9 @@ class View extends JPanel{
 
 
 	// Create the data for each application screen.
-	View(Model m) {
+	View(Model m, DBConnector d) {
 		model = m;
+		db = d;
 		
 		//-------Splash/Character Creation Screen Frame Data
 		frmLasertagCharacter = new JFrame();
@@ -129,7 +132,7 @@ class View extends JPanel{
 		//frmLasertagCharacter.setVisible(true);
 		//frmLasertagGame.setVisible(true);
 		initializeCharacterScreen();
-		initializeGameScreen();
+		//initializeGameScreen();
 		
 	}
 	
@@ -145,7 +148,7 @@ class View extends JPanel{
 
 	
 	 //----------------------------Initialize the contents of the frame---------------------------------------//
-	private void initializeCharacterScreen() {
+	public void initializeCharacterScreen() {
 		
 		//-------------------------------------------Splash Screen-------------------------------------------//
 		JPanel panelsplash = new JPanel();
@@ -475,7 +478,7 @@ class View extends JPanel{
 	}
 
 
-	private void initializeGameScreen() {
+	public void initializeGameScreen() {
 		GridBagLayout gridBagLayoutGame = new GridBagLayout();
 		gridBagLayoutGame.columnWidths = new int[]{0, 0};
 		gridBagLayoutGame.rowHeights = new int[]{0, 0, 40, 0};
@@ -540,8 +543,10 @@ class View extends JPanel{
 		
 		
 		//--------------------------------------------Red Users Game Display------------------------------------------//
-		for(int i = 0; i<numPerTeam; i++) {
-			lblRedUsers[i] = new JLabel("Red Empty");
+		ArrayList<String> redCodenames = db.pullPlayer("red");
+		
+		for(int i = 0; i<redCodenames.size(); i++) {
+			lblRedUsers[i] = new JLabel(redCodenames.get(i));
 			lblRedUsers[i].setForeground(new Color(250, 128, 114));
 			gbc_lblRedUsers[i] = new GridBagConstraints();
 			gbc_lblRedUsers[i].insets = new Insets(0, 0, 5, 5);
@@ -552,7 +557,7 @@ class View extends JPanel{
 		
 		
 		//--------------------------------------------Red Scores------------------------------------------//
-		for(int i = 0; i<numPerTeam; i++) {
+		for(int i = 0; i<redCodenames.size(); i++) {
 			lblRedScores[i] = new JLabel("0000");
 			lblRedScores[i].setForeground(new Color(250, 128, 114));
 			gbc_lblRedScore[i] = new GridBagConstraints();
@@ -562,7 +567,7 @@ class View extends JPanel{
 			red_team_panel.add(lblRedScores[i], gbc_lblRedScore[i]);
 		}
 		
-		//--------------------------------------------Red Team Total Score------------------------------------------//
+		//--------------------------------------------Red Team Total Score------------------------------------------//	
 		lblRedTotalScore = new JLabel("0000");
 		lblRedTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRedTotalScore.setForeground(new Color(250, 128, 114));
@@ -600,8 +605,10 @@ class View extends JPanel{
 		lblGreenTeamGame.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
 		//--------------------------------------------Green Users Game Display------------------------------------------//
-		for(int i = 0; i<numPerTeam; i++) {
-			lblGreenUsers[i] = new JLabel("Green Empty");
+		ArrayList<String> greenCodenames = db.pullPlayer("green");
+
+		for(int i = 0; i < greenCodenames.size(); i++) {
+			lblGreenUsers[i] = new JLabel(greenCodenames.get(i));
 			lblGreenUsers[i].setForeground(new Color(144, 238, 144));
 			gbc_lblGreenUsers[i] = new GridBagConstraints();
 			gbc_lblGreenUsers[i].insets = new Insets(0, 0, 5, 5);
@@ -611,7 +618,7 @@ class View extends JPanel{
 		}
 		
 		//--------------------------------------------Green Scores------------------------------------------//
-		for(int i = 0; i<numPerTeam; i++) {
+		for(int i = 0; i< greenCodenames.size(); i++) {
 			lblGreenScores[i] = new JLabel("0000");
 			lblGreenScores[i].setForeground(new Color(144, 238, 144));
 			gbc_lblGreenScore[i] = new GridBagConstraints();
