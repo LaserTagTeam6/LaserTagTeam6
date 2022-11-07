@@ -12,4 +12,4 @@ When you are done, hit the start game button ( this can also be accomplished wit
 Hit the F5 key to begin the game. 
 At this point the game starts the countdown timer to the beginning of the game. Teams should pop up with who is on which team with the countdown at the bottom. 
 
-YOu can hit the ESC button to quit the game at any point.
+You can hit the ESC button to quit the game at any point.
