@@ -1,26 +1,22 @@
-/*
-Name: Team 6
-Project: Laser Tag
-Date: 09/30/2022
-*/
-
 import javax.swing.JFrame;
 import java.awt.Toolkit;
+import java.awt.KeyboardFocusManager;
 
 public class Main extends JFrame
 {
 	Model model;
 	View view;
 	Controller controller;
+	DBConnector db;
 	
 	public Main()
 	{
 		model = new Model();
-		view = new View(model);
-		controller = new Controller(model, view);
-		view.show(view);
-		view.addMouseListener(controller);
-		view.addKeyListener(controller);
+		db = new DBConnector();
+		view = new View(model, db);
+		controller = new Controller(model, view, db);
+		view.showCharacterScreen(view);
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(controller);
 	}
 	
 	public void run()
@@ -43,6 +39,8 @@ public class Main extends JFrame
 	public static void main(String[] args)
 	{
 		Main g = new Main();
+		g.db.getConnection();
+		g.db.clearTable(); //Don't uncomment this, or the tables might clutter with data
 		g.run();
 	}
 }

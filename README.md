@@ -14,4 +14,7 @@ Once you have entered all of the IDs that are allotted, or you no longer wish to
 Then click the "Finish Username" button.
 When you are done, hit the start game button ( this can also be accomplished with the F5 button)
 
-At this point in the process, the program will end since we still need to add the remainder of the game. Exiting the program can be accomplished at any point in your experience by tapping the escape button on your keyboard.
+Hit the F5 key to begin the game. 
+At this point the game starts the countdown timer to the beginning of the game. Teams should pop up with who is on which team with the countdown at the bottom. 
+
+YOu can hit the ESC button to quit the game at any point.
