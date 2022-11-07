@@ -42,6 +42,9 @@ import javax.swing.JTabbedPane;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
+import java.util.concurrent.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 
 
@@ -49,9 +52,11 @@ class View extends JPanel{
 
 	protected int numPerTeam = 15;
 	public int minutesRemaining = 6;
-	public int secondsRemaining = 00;
+	public int secondsRemaining = 30;
+	public int waitTime = 360;
 	DecimalFormat formatter = new DecimalFormat("00");
 	String secondsFormatted = formatter.format(secondsRemaining);
+	final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	
 	
 	Model model;
@@ -101,6 +106,10 @@ class View extends JPanel{
 	private JPanel panel_1;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
+
+	public JPanel time_display;
+	public JLabel lblSecondsRemaining;
+	public JLabel lblMinutesRemaining;
 	
 
 
@@ -650,8 +659,13 @@ class View extends JPanel{
 		gbc_hit_counter_display.gridy = 1;
 		frmLasertagGame.getContentPane().add(hit_counter_display, gbc_hit_counter_display);
 		hit_counter_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		//--------------------------------------------Time Remaining Display------------------------------------------//
+	}
+
+
+	//--------------------------------------------Time Remaining Display------------------------------------------//
+	public void waitTimer()
+	{
+		// Timer Panel
 		JPanel time_display = new JPanel();
 		time_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
 		time_display.setBackground(new Color(0, 0, 0));
@@ -663,29 +677,36 @@ class View extends JPanel{
 		frmLasertagGame.getContentPane().add(time_display, gbc_time_display);
 		time_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		// "Time Remaining:" text label
 		JLabel lblDNCTimeRemaining = new JLabel("Time Remaining:");
 		lblDNCTimeRemaining.setForeground(new Color(255, 255, 255));
 		lblDNCTimeRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDNCTimeRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
 		time_display.add(lblDNCTimeRemaining);
-		
-		JLabel lblMinutesRemaining = new JLabel(String.valueOf(minutesRemaining));
-		lblMinutesRemaining.setForeground(new Color(255, 255, 255));
-		lblMinutesRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMinutesRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
-		time_display.add(lblMinutesRemaining);
-		
-		JLabel lblsemicolon = new JLabel(":");
-		lblsemicolon.setForeground(new Color(255, 255, 255));
-		lblsemicolon.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblsemicolon.setFont(new Font("Yu Gothic", Font.BOLD, 16));
-		time_display.add(lblsemicolon);
-		
-		JLabel lblSecondsRemaining = new JLabel(String.valueOf(secondsFormatted));
-		lblSecondsRemaining.setForeground(new Color(255, 255, 255));
-		lblSecondsRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblSecondsRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
-		time_display.add(lblSecondsRemaining);
+
+		// Countdown timer label
+		JLabel lblTimeRemaining = new JLabel(String.valueOf(minutesRemaining) + ":" + String.valueOf(secondsRemaining));
+		lblTimeRemaining.setForeground(new Color(255, 255, 255));
+		lblTimeRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTimeRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
+
+		// Displays the timer counting down
+		final Runnable runnable = new Runnable() {
+
+            public void run() {
+            	System.out.println(waitTime);
+            	lblTimeRemaining.setText(String.valueOf(waitTime / 60) + ":" + String.valueOf(formatter.format(waitTime % 60)));
+                waitTime--;
+
+                if (waitTime < 0) {
+                    System.out.println("The Game has Begun!");
+                    scheduler.shutdown();
+                }
+            }
+        };
+		scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
+		time_display.add(lblTimeRemaining);
 	}
+	
 }
 
