@@ -69,6 +69,7 @@ class Controller implements KeyEventDispatcher
 			view.initializeGameScreen();
 			view.frmLasertagCharacter.setVisible(false);
 			view.showGameScreen(view);
+			view.warningTimer();
 			view.waitTimer();
 			view.btnStartGame.setEnabled(false);
 		});
@@ -86,7 +87,10 @@ class Controller implements KeyEventDispatcher
 							view.initializeGameScreen();
 							view.frmLasertagCharacter.setVisible(false);
 							view.showGameScreen(view);
-							view.waitTimer();
+							if(view.warningTime >= 0)
+								view.warningTimer();
+							else
+								view.waitTimer();
 							view.btnStartGame.setEnabled(false);
 						}
 						else{
