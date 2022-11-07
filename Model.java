@@ -8,8 +8,9 @@ class Model
 	final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	int countdownStarter = 35;
 
-	Model(){
-		System.out.println("The Game has begun");
+	Model()
+	{
+		System.out.println("Welcome to Laser Tag");
 	}
   
 	public void update() { }

@@ -665,23 +665,24 @@ class View extends JPanel{
 	public void warningTimer()
 	{
 		// Timer Panel
-		JPanel time_display = new JPanel();
-		time_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
-		time_display.setBackground(new Color(0, 0, 0));
-		GridBagConstraints gbc_time_display = new GridBagConstraints();
-		gbc_time_display.anchor = GridBagConstraints.SOUTH;
-		gbc_time_display.fill = GridBagConstraints.HORIZONTAL;
-		gbc_time_display.gridx = 0;
-		gbc_time_display.gridy = 2;
-		frmLasertagGame.getContentPane().add(time_display, gbc_time_display);
-		time_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		System.out.println("Warning, the Game Starts in 30 Seconds");
+		JPanel warning_time_display = new JPanel();
+		warning_time_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
+		warning_time_display.setBackground(new Color(0, 0, 0));
+		GridBagConstraints gbc_warning_time_display = new GridBagConstraints();
+		gbc_warning_time_display.anchor = GridBagConstraints.SOUTH;
+		gbc_warning_time_display.fill = GridBagConstraints.HORIZONTAL;
+		gbc_warning_time_display.gridx = 0;
+		gbc_warning_time_display.gridy = 2;
+		frmLasertagGame.getContentPane().add(warning_time_display, gbc_warning_time_display);
+		warning_time_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		// "Time Remaining:" text label
 		JLabel lblDNCTimeRemaining = new JLabel("Time Remaining:");
 		lblDNCTimeRemaining.setForeground(new Color(255, 255, 255));
 		lblDNCTimeRemaining.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDNCTimeRemaining.setFont(new Font("Yu Gothic", Font.BOLD, 16));
-		time_display.add(lblDNCTimeRemaining);
+		warning_time_display.add(lblDNCTimeRemaining);
 
 		// Countdown timer label
 		JLabel lblTimeRemaining = new JLabel(String.valueOf(minutesRemaining) + ":" + String.valueOf(secondsRemaining));
@@ -694,7 +695,6 @@ class View extends JPanel{
 
             public void run() {
 				if(warningTime >= 0){
-					System.out.println(warningTime);
 					lblTimeRemaining.setText(String.valueOf(warningTime / 60) + ":" + String.valueOf(formatter.format(warningTime % 60)));
 					warningTime--;
 					if (warningTime == 0) {
@@ -705,7 +705,7 @@ class View extends JPanel{
             }
         };
 		scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
-		time_display.add(lblTimeRemaining);
+		warning_time_display.add(lblTimeRemaining);
 	}
 
 
@@ -742,7 +742,6 @@ class View extends JPanel{
 
 				public void run() {
 					if(warningTime < 0){
-						System.out.println(waitTime);
 						lblTimeRemaining.setText(String.valueOf(waitTime / 60) + ":" + String.valueOf(formatter.format(waitTime % 60)));
 						waitTime--;
 

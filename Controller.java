@@ -65,7 +65,6 @@ class Controller implements KeyEventDispatcher
 		// Button that starts the game
 		view.btnStartGame.addActionListener(e ->
 		{
-			System.out.println("Game has Started");
 			view.initializeGameScreen();
 			view.frmLasertagCharacter.setVisible(false);
 			view.showGameScreen(view);
