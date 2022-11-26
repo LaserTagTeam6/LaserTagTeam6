@@ -34,19 +34,60 @@ public class UDPSystem {
             }
 
             //checkPacket
+            String dTostring = this.data(d).toString().replaceAll(" ", "");
+            if (this.checkPacket(dTostring)){
+                
+            }
 
         }
     }
 
     //Check if incoming packets are in the correct format
-    public void checkPacket(){
+    public boolean checkPacket(String data){
+        //Checks if data is empty
+        if(data.isEmpty()){
+            System.out.println("Data is empty: '" + data + "'");
+            return false;
+        }
+        
+        //Checks if data can be split in 2
+        String[] dataFormat = data.split(":");
+        if(dataFormat.length != 2){
+            System.out.print("Data cannot be split: '" + data + "'");
+            return false;
+        }
 
+        //Checks if data is an integer
+        int[] isInteger = new int[dataFormat.length];
+        try {
+            for(int i = 0; i < dataFormat.length; i++){
+                isInteger[i] = Integer.parseInt(dataFormat[i]);
+            }
+        } catch (Exception e) {
+            System.out.println("Data is not an integer: '" + data + "'");
+            return false;
+        }
+
+        //Check if data is positive (May not be necessary)
+        for(int i = 0; i < dataFormat.length; i++){
+            if(isInteger[i] < 0){
+                System.out.println("Data" + isInteger[i] + "is negative");
+                return false;
+            }
+        }
+
+        System.out.println("Data format is acceptable: " + data);
+        return true;
     }
 
+    public String parseData(String data){
+        return data; //Change this later
+    }
+    
 
 // A utility method to convert the byte array
 // data into a string representation.
-public static StringBuilder data(byte[] a)
+public StringBuilder data(byte[] a)
 {
     if (a == null)
         return null;
