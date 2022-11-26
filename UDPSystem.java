@@ -21,6 +21,7 @@ public class UDPSystem {
 
     //Listening Function
     public void listener(){
+        System.out.println("Server is listening...");
         while(true){
             //Declaration of byte/packet
             byte[] d = new byte[32];
@@ -29,14 +30,20 @@ public class UDPSystem {
             //Receive Packet
             try {
                 receiver.receive(packet);
+                System.out.println("Packet has been received: " + packet);
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             //checkPacket
+            System.out.println("Checking packet format...");
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
-                
+                System.out.println("Data format is correct");
+            }
+            else{
+                System.out.println("Data format is incorrect");
             }
 
         }

@@ -19,6 +19,7 @@ public class Main extends JFrame
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(controller);
 	}
 	
+	//Do we even need this function???
 	public void run()
 	{
 		while(true)
@@ -33,6 +34,7 @@ public class Main extends JFrame
 				e.printStackTrace();
 				System.exit(1);
 			}
+			System.out.println("This is running");
 		}
 	}
 
@@ -41,6 +43,15 @@ public class Main extends JFrame
 		Main g = new Main();
 		g.db.getConnection();
 		g.db.clearTable(); //Don't uncomment this, or the tables might clutter with data
+		try {
+			UDPSystem server = new UDPSystem(7501, 7500);
+			server.listener();
+
+        } catch (Exception exception) {
+            System.out.println("Server has encountered an exception:");
+            exception.printStackTrace();
+		}
+		System.out.println("We made it here2");
 		g.run();
 	}
 }
