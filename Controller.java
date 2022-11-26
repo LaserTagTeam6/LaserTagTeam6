@@ -29,8 +29,8 @@ class Controller implements KeyEventDispatcher
 			if(!view.GreenIDs[i].getText().isEmpty() && !view.GreenUsers[i].getText().isEmpty())
 			{
 				
-				d.createPlayer(i, view.GreenIDs[i].getText(), null, view.GreenUsers[i].getText(), "green"); //Do not delete, may reuse this in the future
-				//d.createPlayer(Integer.parseInt(view.GreenIDs[i].getText()), null, null, view.GreenUsers[i].getText(), "green");
+				//d.createPlayer(i, view.GreenIDs[i].getText(), null, view.GreenUsers[i].getText(), "green"); //Do not delete, may reuse this in the future
+				d.createPlayer(Integer.parseInt(view.GreenIDs[i].getText()), null, null, view.GreenUsers[i].getText(), "green");
 				System.out.println("Player creation info has pushed to DB: " + i);
 				view.btnStartGame.setEnabled(true);
 			}
@@ -45,8 +45,8 @@ class Controller implements KeyEventDispatcher
 			}
 			if(!view.RedIDs[i].getText().isEmpty() && !view.RedUsers[i].getText().isEmpty())
 			{
-				d.createPlayer(i, view.RedIDs[i].getText(), null, view.RedUsers[i].getText(), "red"); //Do not delete, may reuse this in the future
-				//d.createPlayer(Integer.parseInt(view.RedIDs[i].getText()), null, null, view.RedUsers[i].getText(), "red");
+				//d.createPlayer(i, view.RedIDs[i].getText(), null, view.RedUsers[i].getText(), "red"); //Do not delete, may reuse this in the future
+				d.createPlayer(Integer.parseInt(view.RedIDs[i].getText()), null, null, view.RedUsers[i].getText(), "red");
 				System.out.println("Player creation info pushed to DB on row: " + i);
 				view.btnStartGame.setEnabled(true);
 			}
