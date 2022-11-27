@@ -10,6 +10,7 @@ public class Main extends JFrame
 	View view;
 	Controller controller;
 	DBConnector db;
+	static int temp = 1;
 	//UDPSystem server;
 	
 	public Main() throws SocketException, UnknownHostException
@@ -23,23 +24,9 @@ public class Main extends JFrame
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(controller);
 	}
 	
-	//Do we even need this function???
 	public void run()
 	{
-		while(true)
-		{
-			controller.update();
-			model.update();
-			//view.repaint();
-			Toolkit.getDefaultToolkit().sync();
-			try{
-				Thread.sleep(1);
-			} catch(Exception e){
-				e.printStackTrace();
-				System.exit(1);
-			}
-			//System.out.println("This is running");
-		}
+
 	}
 
 	public static void main(String[] args) throws SocketException, UnknownHostException
@@ -47,15 +34,21 @@ public class Main extends JFrame
 		Main g = new Main();
 		g.db.getConnection();
 		g.db.clearTable(); //Don't uncomment this, or the tables might clutter with data
-		try {
-			UDPSystem server = new UDPSystem(7501, 7500, g.db);
-			server.listener();
-
-        } catch (Exception exception) {
-            System.out.println("Server exception:");
-            exception.printStackTrace();
+		while(true){
+			if(View.ListenerEnable){
+				try {
+					UDPSystem server = new UDPSystem(7501, 7500, g.db);
+					server.listener();
+		
+				} catch (Exception exception) {
+					System.out.println("Server exception (Main): ");
+					exception.printStackTrace();
+				}
+			}
+			else{
+				System.out.println(""); //Do not delete this, if you do the conditional statement above breaks
+										//and the server will never listen.
+			}
 		}
-		System.out.println("We made it here2");
-		//g.run();
 	}
 }

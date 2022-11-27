@@ -171,7 +171,6 @@ public class UDPSystem {
         else{
             System.out.println("Something went wrong");
         }
-
         return event;
     }
     

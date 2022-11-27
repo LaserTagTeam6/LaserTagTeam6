@@ -116,6 +116,9 @@ class View extends JPanel{
 
 	//hit_histroy declarations
 	public static JTextArea hit_counter_display;
+
+	//begings listener when game actually starts
+	public static boolean ListenerEnable  = false;
 	
 
 
@@ -704,6 +707,8 @@ class View extends JPanel{
 					warningTime--;
 					if (warningTime == 0) {
 						System.out.println("The Game has Begun!");
+						View.ListenerEnable = true;
+						//System.out.println(View.ListenerEnable);
 						return;
 					}
 				}
@@ -752,6 +757,7 @@ class View extends JPanel{
 
 						if (waitTime < 0) {
 							System.out.println("The Game is Over!");
+							View.ListenerEnable = false;
 							scheduler.shutdown();
 						}
 					}
