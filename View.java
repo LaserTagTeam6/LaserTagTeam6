@@ -111,6 +111,9 @@ class View extends JPanel{
 	public JPanel time_display;
 	public JLabel lblSecondsRemaining;
 	public JLabel lblMinutesRemaining;
+
+	//hit_histroy declarations
+	public static JPanel hit_counter_display;
 	
 
 
@@ -650,7 +653,7 @@ class View extends JPanel{
 		
 		
 		//--------------------------------------------Hit History------------------------------------------//
-		JPanel hit_counter_display = new JPanel();
+		hit_counter_display = new JPanel();
 		hit_counter_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
 		hit_counter_display.setBackground(new Color(30, 144, 255));
 		GridBagConstraints gbc_hit_counter_display = new GridBagConstraints();

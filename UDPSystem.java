@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+
 public class UDPSystem {
 
     DatagramSocket receiver;
@@ -44,7 +46,7 @@ public class UDPSystem {
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
                 System.out.println("Data format is correct");
-                this.parseData(dTostring);
+                View.hit_counter_display.add(new JLabel(this.parseData(dTostring)));
             }
             else{
                 System.out.println("Data format is incorrect");
@@ -145,17 +147,25 @@ public class UDPSystem {
         }
         if(ATKisRed && DEFisGreen)
         {
+            //Red Player Individual Score
             event = tempRname + " shot " + tempGname;
-            int currentScore = Integer.parseInt(View.lblRedScores[tempRIndex].getText());
-            int updatedScore = currentScore + 10;
-            View.lblRedScores[tempRIndex].setText(String.valueOf(updatedScore));
+            int playerScore = Integer.parseInt(View.lblRedScores[tempRIndex].getText());
+            View.lblRedScores[tempRIndex].setText(String.valueOf(playerScore + 10));
+
+            //Red Total Score
+            int totalPlayerScore = Integer.parseInt(View.lblRedTotalScore.getText());
+            View.lblRedTotalScore.setText(String.valueOf(totalPlayerScore + 10));
         }
         else if(ATKisGreen && DEFisRed)
         {
+            //Green Player Individual Score
             event = tempGname + " shot " + tempRname;
-            int currentScore = Integer.parseInt(View.lblGreenScores[tempGIndex].getText());
-            int updatedScore = currentScore + 10; 
-            View.lblGreenScores[tempGIndex].setText(String.valueOf(updatedScore));
+            int playerScore = Integer.parseInt(View.lblGreenScores[tempGIndex].getText());
+            View.lblGreenScores[tempGIndex].setText(String.valueOf(playerScore + 10));
+            
+            //Green Total Score
+            int totalPlayerScore = Integer.parseInt(View.lblGreenTotalScore.getText());
+            View.lblGreenTotalScore.setText(String.valueOf(totalPlayerScore + 10));
         }
         else{
             System.out.println("Something went wrong");
