@@ -24,6 +24,7 @@ public class UDPSystem {
 
     //Listening Function
     public void listener(){
+
         System.out.println("Server is listening...");
         while(true){
             //Declaration of byte/packet
@@ -39,7 +40,6 @@ public class UDPSystem {
                 e.printStackTrace();
             }
 
-            //checkPacket
             System.out.println("Checking packet format...");
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
@@ -49,7 +49,6 @@ public class UDPSystem {
             else{
                 System.out.println("Data format is incorrect");
             }
-
         }
     }
 
@@ -103,6 +102,8 @@ public class UDPSystem {
         String event = "";
         String tempRname = "";
         String tempGname = "";
+        int tempRIndex = 0;
+        int tempGIndex = 0;
 
         ArrayList<Integer> redIDs = db.pullIDs("red");
         ArrayList<String> redCodenames = db.pullPlayer("red");
@@ -116,41 +117,45 @@ public class UDPSystem {
                 ATKisRed = true;
                 System.out.println("Red Player Attacker: " + redCodenames.get(i));
                 tempRname = redCodenames.get(i);
+                tempRIndex = i;
+                
             }
             else if(p2 == redIDs.get(i)){
                 DEFisRed = true;
                 System.out.println("Red Player Defender: " + redCodenames.get(i));
                 tempRname = redCodenames.get(i);
+                tempRIndex = i;
             }
         }
 
         for(int j = 0; j < greenIDs.size(); j++)
-            {
-                if(p1 == greenIDs.get(j)){
-                    ATKisGreen = true;
-                    System.out.println("Green Player Attacker: " + greenCodenames.get(j));
-                    tempGname = greenCodenames.get(j);
-                }
-                else if(p2 == greenIDs.get(j)){
-                    DEFisGreen = true;
-                    System.out.println("Green Player Defender: " + greenCodenames.get(j));
-                    tempGname = greenCodenames.get(j);
-                }
-                // else{
-                //     break;
-                // }
+        {
+            if(p1 == greenIDs.get(j)){
+                ATKisGreen = true;
+                System.out.println("Green Player Attacker: " + greenCodenames.get(j));
+                tempGname = greenCodenames.get(j);
+                tempGIndex = j;
             }
+            else if(p2 == greenIDs.get(j)){
+                DEFisGreen = true;
+                System.out.println("Green Player Defender: " + greenCodenames.get(j));
+                tempGname = greenCodenames.get(j);
+                tempGIndex = j;
+            }
+        }
         if(ATKisRed && DEFisGreen)
         {
             event = tempRname + " shot " + tempGname;
-            //Score is +10 for red team
-            //Score for redCodename is +10
+            int currentScore = Integer.parseInt(View.lblRedScores[tempRIndex].getText());
+            int updatedScore = currentScore + 10;
+            View.lblRedScores[tempRIndex].setText(String.valueOf(updatedScore));
         }
         else if(ATKisGreen && DEFisRed)
         {
             event = tempGname + " shot " + tempRname;
-            //Score is +10 for green team
-            //Score for greenCodeename is +10
+            int currentScore = Integer.parseInt(View.lblGreenScores[tempGIndex].getText());
+            int updatedScore = currentScore + 10; 
+            View.lblGreenScores[tempGIndex].setText(String.valueOf(updatedScore));
         }
         else{
             System.out.println("Something went wrong");

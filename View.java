@@ -88,16 +88,16 @@ class View extends JPanel{
 	private JPanel contentPane;
 	//game screen score data
 	//red
-	public JLabel lblRedTotalScore;
+	public static JLabel lblRedTotalScore;
 	public JLabel[] lblRedUsers = new JLabel[numPerTeam];
 	private GridBagConstraints[] gbc_lblRedUsers = new GridBagConstraints[numPerTeam];
-	public JLabel[] lblRedScores = new JLabel[numPerTeam];
+	public static JLabel[] lblRedScores = new JLabel[15]; //DO NOT MAKE numPerTeam
 	private GridBagConstraints[] gbc_lblRedScore = new GridBagConstraints[numPerTeam];
 	//green
-	public JLabel lblGreenTotalScore;
+	public static JLabel lblGreenTotalScore;
 	public JLabel[] lblGreenUsers = new JLabel[numPerTeam];
 	private GridBagConstraints[] gbc_lblGreenUsers = new GridBagConstraints[numPerTeam];
-	public JLabel[] lblGreenScores = new JLabel[numPerTeam];
+	public static JLabel[] lblGreenScores = new JLabel[15]; //DO NOT MAKE numPerTeam
 	private GridBagConstraints[] gbc_lblGreenScore = new GridBagConstraints[numPerTeam];
 	
 	//private BufferedImage splashScreen;
@@ -568,7 +568,7 @@ class View extends JPanel{
 		
 		//--------------------------------------------Red Scores------------------------------------------//
 		for(int i = 0; i<redCodenames.size(); i++) {
-			lblRedScores[i] = new JLabel("0000");
+			lblRedScores[i] = new JLabel("00");
 			lblRedScores[i].setForeground(new Color(250, 128, 114));
 			gbc_lblRedScore[i] = new GridBagConstraints();
 			gbc_lblRedScore[i].insets = new Insets(0, 0, 5, 5);
@@ -578,7 +578,7 @@ class View extends JPanel{
 		}
 		
 		//--------------------------------------------Red Team Total Score------------------------------------------//	
-		lblRedTotalScore = new JLabel("0000");
+		lblRedTotalScore = new JLabel("00");
 		lblRedTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblRedTotalScore.setForeground(new Color(250, 128, 114));
 		GridBagConstraints gbc_lblRedTotalScore = new GridBagConstraints();
@@ -629,7 +629,7 @@ class View extends JPanel{
 		
 		//--------------------------------------------Green Scores------------------------------------------//
 		for(int i = 0; i< greenCodenames.size(); i++) {
-			lblGreenScores[i] = new JLabel("0000");
+			lblGreenScores[i] = new JLabel("0");
 			lblGreenScores[i].setForeground(new Color(144, 238, 144));
 			gbc_lblGreenScore[i] = new GridBagConstraints();
 			gbc_lblGreenScore[i].insets = new Insets(0, 0, 5, 0);
@@ -639,7 +639,7 @@ class View extends JPanel{
 		}
 		
 		//--------------------------------------------Green Team Total Scores------------------------------------------//
-		lblGreenTotalScore = new JLabel("0000");
+		lblGreenTotalScore = new JLabel("0");
 		lblGreenTotalScore.setForeground(new Color(144, 238, 144));
 		lblGreenTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblGreenTotalScore = new GridBagConstraints();

@@ -56,6 +56,6 @@ public class Main extends JFrame
             exception.printStackTrace();
 		}
 		System.out.println("We made it here2");
-		g.run();
+		//g.run();
 	}
 }
