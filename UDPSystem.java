@@ -101,7 +101,9 @@ public class UDPSystem {
         boolean DEFisRed = false;
         boolean DEFisGreen = false;
         String event = "";
-        
+        String tempRname = "";
+        String tempGname = "";
+
         ArrayList<Integer> redIDs = db.pullIDs("red");
         ArrayList<String> redCodenames = db.pullPlayer("red");
 
@@ -110,39 +112,50 @@ public class UDPSystem {
 
         for(int i = 0; i < redIDs.size(); i++)
         {
-            for(int j = 0; j < greenIDs.size(); i++)
+            if(p1 == redIDs.get(i)){ 
+                ATKisRed = true;
+                System.out.println("Red Player Attacker: " + redCodenames.get(i));
+                tempRname = redCodenames.get(i);
+            }
+            else if(p2 == redIDs.get(i)){
+                DEFisRed = true;
+                System.out.println("Red Player Defender: " + redCodenames.get(i));
+                tempRname = redCodenames.get(i);
+            }
+        }
+
+        for(int j = 0; j < greenIDs.size(); j++)
             {
-                if(p1 == redIDs.get(i)){ 
-                    ATKisRed = true;
-                    System.out.println("Red Player Attacker: " + redCodenames.get(i));
-                }
-                else if(p2 == redIDs.get(i)){
-                    DEFisRed = true;
-                    System.out.println("Red Player Defender: " + redCodenames.get(i));
-                }
                 if(p1 == greenIDs.get(j)){
                     ATKisGreen = true;
-                    System.out.println("Green Player Attacker: " + greenCodenames.get(i));
+                    System.out.println("Green Player Attacker: " + greenCodenames.get(j));
+                    tempGname = greenCodenames.get(j);
                 }
                 else if(p2 == greenIDs.get(j)){
                     DEFisGreen = true;
-                    System.out.println("Green Player Defender: " + greenCodenames.get(i));
+                    System.out.println("Green Player Defender: " + greenCodenames.get(j));
+                    tempGname = greenCodenames.get(j);
                 }
-                if(ATKisRed && DEFisGreen)
-                {
-                    event = redCodenames.get(i) + " shot " + greenCodenames.get(i);
-                    //Score is +10 for red team
-                    //Score for redCodename is +10
-                }
-                else if(ATKisGreen && DEFisRed)
-                {
-                    event = greenCodenames.get(i) + " shot " + redCodenames.get(i);
-                    //Score is +10 for green team
-                    //Score for greenCodeename is +10
-                }
+                // else{
+                //     break;
+                // }
             }
+        if(ATKisRed && DEFisGreen)
+        {
+            event = tempRname + " shot " + tempGname;
+            //Score is +10 for red team
+            //Score for redCodename is +10
         }
-        
+        else if(ATKisGreen && DEFisRed)
+        {
+            event = tempGname + " shot " + tempRname;
+            //Score is +10 for green team
+            //Score for greenCodeename is +10
+        }
+        else{
+            System.out.println("Something went wrong");
+        }
+
         return event;
     }
     
