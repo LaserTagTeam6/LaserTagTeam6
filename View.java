@@ -35,6 +35,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.awt.Image;
 import java.lang.Object;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.awt.SystemColor;
 import javax.swing.BoxLayout;
@@ -64,6 +66,7 @@ class View extends JPanel{
 	
 	Model model;
 	DBConnector db;
+	//UDPSystem server;
 	public boolean addNum = false;
 	public int IDnum = 0;
 	public int playerIndex = 0;
@@ -123,9 +126,10 @@ class View extends JPanel{
 
 
 	// Create the data for each application screen.
-	View(Model m, DBConnector d) {
+	View(Model m, DBConnector d) throws SocketException, UnknownHostException {
 		model = m;
 		db = d;
+		//server = new UDPSystem(7501, 7500, db);
 		
 		//-------Splash/Character Creation Screen Frame Data
 		frmLasertagCharacter = new JFrame();
@@ -711,6 +715,7 @@ class View extends JPanel{
 					if (warningTime == 0) {
 						System.out.println("The Game has Begun!");
 						View.ListenerEnable = true;
+
 						//System.out.println(View.ListenerEnable);
 						return;
 					}

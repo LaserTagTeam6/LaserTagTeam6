@@ -15,7 +15,7 @@ class Controller implements KeyEventDispatcher
 		// Button that confirms the ID is from the Database
 		view.btnConfirmID.addActionListener(e ->
 		{
-			System.out.println("database player ID query");
+			//System.out.println("database player ID query");
 			view.btnFinishUsername.setEnabled(true);
 		});
 

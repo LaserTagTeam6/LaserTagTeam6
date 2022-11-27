@@ -29,7 +29,7 @@ public class Main extends JFrame
 
 	}
 
-	public static void main(String[] args) throws SocketException, UnknownHostException
+	public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException
 	{
 		Main g = new Main();
 		g.db.getConnection();
@@ -46,8 +46,7 @@ public class Main extends JFrame
 				}
 			}
 			else{
-				System.out.println(""); //Do not delete this, if you do the conditional statement above breaks
-										//and the server will never listen.
+				Thread.sleep(1); //DO NOT DELETE
 			}
 		}
 	}

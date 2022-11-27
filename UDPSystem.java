@@ -65,7 +65,7 @@ public class UDPSystem {
         DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.array().length, this.broadcast_add, this.sender.getLocalPort());
 
         this.sender.send(packet);
-        System.out.println(idTagged + "' is sent by " + this.broadcast_add + " to port " + this.sender.getLocalPort());
+        System.out.println(idTagged + " got shot");
     }
 
 
