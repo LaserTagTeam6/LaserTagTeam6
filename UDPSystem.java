@@ -46,7 +46,7 @@ public class UDPSystem {
             //System.out.println("Checking packet format...");
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
-                System.out.println("Data format is correct");
+                //System.out.println("Data format is correct");
                 View.hit_counter_display.setText(this.parseData(dTostring));
                 broadcast(Integer.parseInt(dTostring.split(":")[1]));;
 

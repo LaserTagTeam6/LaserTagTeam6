@@ -659,6 +659,9 @@ class View extends JPanel{
 		
 		//--------------------------------------------Hit History------------------------------------------//
 		hit_counter_display = new JTextArea();
+		hit_counter_display.setEnabled(false);
+		hit_counter_display.setForeground(new Color(0,0,0));
+		hit_counter_display.setFont(new Font("Tahoma", Font.BOLD, 11));
 		hit_counter_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
 		hit_counter_display.setBackground(new Color(30, 144, 255));
 		GridBagConstraints gbc_hit_counter_display = new GridBagConstraints();
