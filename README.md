@@ -9,5 +9,6 @@
 - After you have entered the data for the players, click the `Finish ID Entry` button.
 - Click the `Finish Username` button to load entries into the database.
 - Click the `Start Game` button or press the `F5` key to start the Laser Tag Game.
+- Once you're in the game screen, run the traffic generator.
 - The 30 second warning timer has started ticking.
 - The 6 minute game timer will start after the warning timer has finished ticking.
