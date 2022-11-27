@@ -5,15 +5,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 public class UDPSystem {
 
     DatagramSocket receiver;
     DatagramSocket sender;
     InetAddress broadcast_add;
+    DBConnector db;
     
     //Declaring Socket Objects
-    public UDPSystem(int recvPort, int sendPort) throws SocketException, UnknownHostException{
+    UDPSystem(int recvPort, int sendPort, DBConnector d) throws SocketException, UnknownHostException{
+        db = d;
         this.receiver = new DatagramSocket(recvPort);
         this.sender = new DatagramSocket(sendPort);
         this.broadcast_add = InetAddress.getLocalHost();
@@ -41,6 +44,7 @@ public class UDPSystem {
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
                 System.out.println("Data format is correct");
+                this.parseData(dTostring);
             }
             else{
                 System.out.println("Data format is incorrect");
@@ -78,7 +82,7 @@ public class UDPSystem {
         //Check if data is positive (May not be necessary)
         for(int i = 0; i < dataFormat.length; i++){
             if(isInteger[i] < 0){
-                System.out.println("Data" + isInteger[i] + "is negative");
+                System.out.println("Data is negative: " + isInteger[i]);
                 return false;
             }
         }
@@ -88,7 +92,58 @@ public class UDPSystem {
     }
 
     public String parseData(String data){
-        return data; //Change this later
+        //Data is split so we can reference them individually
+        String[] splitData = data.split(":");
+        int p1 = Integer.parseInt(splitData[0]);
+        int p2 = Integer.parseInt(splitData[1]);
+        boolean ATKisRed = false;
+        boolean ATKisGreen = false;
+        boolean DEFisRed = false;
+        boolean DEFisGreen = false;
+        String event = "";
+        
+        ArrayList<Integer> redIDs = db.pullIDs("red");
+        ArrayList<String> redCodenames = db.pullPlayer("red");
+
+        ArrayList<Integer> greenIDs = db.pullIDs("green");
+        ArrayList<String> greenCodenames = db.pullPlayer("green");
+
+        for(int i = 0; i < redIDs.size(); i++)
+        {
+            for(int j = 0; j < greenIDs.size(); i++)
+            {
+                if(p1 == redIDs.get(i)){ 
+                    ATKisRed = true;
+                    System.out.println("Red Player Attacker: " + redCodenames.get(i));
+                }
+                else if(p2 == redIDs.get(i)){
+                    DEFisRed = true;
+                    System.out.println("Red Player Defender: " + redCodenames.get(i));
+                }
+                if(p1 == greenIDs.get(j)){
+                    ATKisGreen = true;
+                    System.out.println("Green Player Attacker: " + greenCodenames.get(i));
+                }
+                else if(p2 == greenIDs.get(j)){
+                    DEFisGreen = true;
+                    System.out.println("Green Player Defender: " + greenCodenames.get(i));
+                }
+                if(ATKisRed && DEFisGreen)
+                {
+                    event = redCodenames.get(i) + " shot " + greenCodenames.get(i);
+                    //Score is +10 for red team
+                    //Score for redCodename is +10
+                }
+                else if(ATKisGreen && DEFisRed)
+                {
+                    event = greenCodenames.get(i) + " shot " + redCodenames.get(i);
+                    //Score is +10 for green team
+                    //Score for greenCodeename is +10
+                }
+            }
+        }
+        
+        return event;
     }
     
 
