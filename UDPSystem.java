@@ -26,7 +26,7 @@ public class UDPSystem {
     }
 
     //Listening Function
-    public void listener(){
+    public void listener() throws NumberFormatException, Exception{
 
         System.out.println("Server is listening...");
         while(true){
@@ -37,23 +37,38 @@ public class UDPSystem {
             //Receive Packet
             try {
                 receiver.receive(packet);
-                System.out.println("Packet has been received: " + packet);
+                //System.out.println("Packet has been received: " + packet);
                 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            System.out.println("Checking packet format...");
+            //System.out.println("Checking packet format...");
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
                 System.out.println("Data format is correct");
                 View.hit_counter_display.setText(this.parseData(dTostring));
+                broadcast(Integer.parseInt(dTostring.split(":")[1]));;
+
             }
             else{
                 System.out.println("Data format is incorrect");
             }
         }
     }
+
+    public void broadcast(int idTagged) throws Exception {
+        ByteBuffer buffer;
+        buffer = ByteBuffer.allocate(4);
+        buffer.putInt(idTagged);
+
+        DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.array().length, this.broadcast_add, this.sender.getLocalPort());
+
+        this.sender.send(packet);
+        System.out.println(idTagged + "' is sent by " + this.broadcast_add + " to port " + this.sender.getLocalPort());
+    }
+
+
 
     //Check if incoming packets are in the correct format
     public boolean checkPacket(String data){
@@ -118,14 +133,14 @@ public class UDPSystem {
         {
             if(p1 == redIDs.get(i)){ 
                 ATKisRed = true;
-                System.out.println("Red Player Attacker: " + redCodenames.get(i));
+                //System.out.println("Red Player Attacker: " + redCodenames.get(i));
                 tempRname = redCodenames.get(i);
                 tempRIndex = i;
                 
             }
             else if(p2 == redIDs.get(i)){
                 DEFisRed = true;
-                System.out.println("Red Player Defender: " + redCodenames.get(i));
+                //System.out.println("Red Player Defender: " + redCodenames.get(i));
                 tempRname = redCodenames.get(i);
                 tempRIndex = i;
             }
@@ -135,13 +150,13 @@ public class UDPSystem {
         {
             if(p1 == greenIDs.get(j)){
                 ATKisGreen = true;
-                System.out.println("Green Player Attacker: " + greenCodenames.get(j));
+                //System.out.println("Green Player Attacker: " + greenCodenames.get(j));
                 tempGname = greenCodenames.get(j);
                 tempGIndex = j;
             }
             else if(p2 == greenIDs.get(j)){
                 DEFisGreen = true;
-                System.out.println("Green Player Defender: " + greenCodenames.get(j));
+                //System.out.println("Green Player Defender: " + greenCodenames.get(j));
                 tempGname = greenCodenames.get(j);
                 tempGIndex = j;
             }
