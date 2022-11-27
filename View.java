@@ -634,7 +634,7 @@ class View extends JPanel{
 		
 		//--------------------------------------------Green Scores------------------------------------------//
 		for(int i = 0; i< greenCodenames.size(); i++) {
-			lblGreenScores[i] = new JLabel("0");
+			lblGreenScores[i] = new JLabel("00");
 			lblGreenScores[i].setForeground(new Color(144, 238, 144));
 			gbc_lblGreenScore[i] = new GridBagConstraints();
 			gbc_lblGreenScore[i].insets = new Insets(0, 0, 5, 0);
@@ -644,7 +644,7 @@ class View extends JPanel{
 		}
 		
 		//--------------------------------------------Green Team Total Scores------------------------------------------//
-		lblGreenTotalScore = new JLabel("0");
+		lblGreenTotalScore = new JLabel("00");
 		lblGreenTotalScore.setForeground(new Color(144, 238, 144));
 		lblGreenTotalScore.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblGreenTotalScore = new GridBagConstraints();
