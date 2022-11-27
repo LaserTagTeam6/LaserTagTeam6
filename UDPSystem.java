@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class UDPSystem {
 
@@ -46,7 +47,7 @@ public class UDPSystem {
             String dTostring = this.data(d).toString().replaceAll(" ", "");
             if (this.checkPacket(dTostring)){
                 System.out.println("Data format is correct");
-                View.hit_counter_display.add(new JLabel(this.parseData(dTostring)));
+                View.hit_counter_display.setText(this.parseData(dTostring));
             }
             else{
                 System.out.println("Data format is incorrect");

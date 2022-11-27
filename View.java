@@ -39,6 +39,8 @@ import java.text.DecimalFormat;
 import java.awt.SystemColor;
 import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+
 import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
@@ -113,7 +115,7 @@ class View extends JPanel{
 	public JLabel lblMinutesRemaining;
 
 	//hit_histroy declarations
-	public static JPanel hit_counter_display;
+	public static JTextArea hit_counter_display;
 	
 
 
@@ -653,7 +655,7 @@ class View extends JPanel{
 		
 		
 		//--------------------------------------------Hit History------------------------------------------//
-		hit_counter_display = new JPanel();
+		hit_counter_display = new JTextArea();
 		hit_counter_display.setBorder(new LineBorder(new Color(255, 215, 0), 4, true));
 		hit_counter_display.setBackground(new Color(30, 144, 255));
 		GridBagConstraints gbc_hit_counter_display = new GridBagConstraints();
@@ -662,7 +664,7 @@ class View extends JPanel{
 		gbc_hit_counter_display.gridx = 0;
 		gbc_hit_counter_display.gridy = 1;
 		frmLasertagGame.getContentPane().add(hit_counter_display, gbc_hit_counter_display);
-		hit_counter_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		//hit_counter_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
 
 	public void warningTimer()
