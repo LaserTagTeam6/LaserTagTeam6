@@ -5,7 +5,7 @@
 
 # Running the Program
 - Run the command: `./build.bat` on the terminal.
-- You will be prompted with the Player Creation Screen, enter the ID in the left columns boxes, and the codename in the right column boxes.
+- You will be prompted with the Player Creation Screen, enter the ID in the left columns boxes, and the  codename in the right column boxes. You can click through each or use the tab key to go through one by one
 - After you have entered the data for the players, click the `Finish ID Entry` button.
 - Click the `Finish Username` button to load entries into the database.
 - Click the `Start Game` button or press the `F5` key to start the Laser Tag Game.
