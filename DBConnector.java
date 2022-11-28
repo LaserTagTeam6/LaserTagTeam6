@@ -75,6 +75,33 @@ public void createPlayer(int id, String firstName, String lastName, String codeN
     }
 }
 
+public ArrayList<Integer> pullIDs(String color){
+    ArrayList<Integer> idList = new ArrayList<Integer>();
+    try{
+        if(!conn.isClosed()){
+            Statement SQLstatement = conn.createStatement();
+            String PullFromDB = "SELECT id from player WHERE color = " + "'" + color + "'" + ";";
+
+            ResultSet rs = SQLstatement.executeQuery(PullFromDB);
+                while(rs.next())
+                {
+                    int DB_id = rs.getInt("id");
+                    idList.add(DB_id);
+                }
+        }
+        else{
+            System.out.println("There is no connection, failed to send createPlayer Query");
+        }
+    }
+    catch(SQLException e )
+    {
+        System.out.println("PULL FAILED");
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        return null;
+    }
+    return idList;
+}
+
 public ArrayList<String> pullPlayer(String color){
     ArrayList<String> codenameList = new ArrayList<String>();
     try{

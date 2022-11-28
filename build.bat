@@ -1,5 +1,5 @@
 @echo off
-javac -d "./bin" Main.java View.java Controller.java Model.java DBConnector.java
+javac -d "./bin" Main.java View.java Controller.java Model.java DBConnector.java UDPSystem.java
 if %errorlevel% neq 0 (
 	echo There was an error; exiting now.	
 ) else (
