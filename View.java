@@ -147,14 +147,8 @@ class View extends JPanel{
 		frmLasertagGame.setBounds(100, 100, 600, 600);
 		frmLasertagGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		
-		
-		
-		//Commented out 10/30/22 not needed here
-		//frmLasertagCharacter.setVisible(true);
 		frmLasertagGame.setVisible(false);
 		initializeCharacterScreen();
-		//initializeGameScreen();
 		
 	}
 	
