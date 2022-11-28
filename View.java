@@ -674,7 +674,6 @@ class View extends JPanel{
 		gbc_hit_counter_display.gridx = 0;
 		gbc_hit_counter_display.gridy = 1;
 		frmLasertagGame.getContentPane().add(hit_counter_display, gbc_hit_counter_display);
-		//hit_counter_display.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
 
 	public void warningTimer()

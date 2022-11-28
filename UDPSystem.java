@@ -190,8 +190,7 @@ public class UDPSystem {
     }
     
 
-// A utility method to convert the byte array
-// data into a string representation.
+// A utility method to convert the byte array data into a string representation.
 public StringBuilder data(byte[] a)
 {
     if (a == null)
